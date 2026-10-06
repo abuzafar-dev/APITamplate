@@ -125,11 +125,6 @@ MAILERS = {
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
-
-
-# drf-spectacular (OpenAPI schema / Swagger UI)
-# https://drf-spectacular.readthedocs.io/en/latest/settings.html
-
 SPECTACULAR_SETTINGS = {
     'TITLE': 'APITamplate',
     'DESCRIPTION': 'API template project',
