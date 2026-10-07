@@ -24,6 +24,18 @@ cp .env.example .env          # then set SECRET_KEY
 .venv/bin/python manage.py runserver
 ```
 
+## What you get
+
+Interactive OpenAPI docs at `/api/docs/`, generated from the code by
+drf-spectacular — no hand-written schema to keep in sync.
+
+![Swagger UI](docs/swagger.png)
+
+DRF's browsable API is left on in development, so endpoints can be tried
+without any extra tooling.
+
+![Browsable API](docs/health.png)
+
 ## Endpoints
 
 | Path | Description |
