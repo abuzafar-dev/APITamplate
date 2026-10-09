@@ -29,3 +29,23 @@ class SchemaEndpointTests(TestCase):
         response = self.client.get('/api/docs/')
 
         self.assertEqual(response.status_code, 200)
+
+
+class ProductionDefaultsTests(TestCase):
+    def test_debug_is_off_when_env_missing(self):
+        """Lokal .env bo'lmagan nusxada DEBUG standart holda False bo'lishi kerak."""
+        import os
+        import shutil
+        import subprocess
+        import sys
+        import tempfile
+        from pathlib import Path
+
+        root = Path(__file__).resolve().parent.parent
+        copy = Path(tempfile.mkdtemp()) / 'project'
+        shutil.copytree(root, copy, ignore=shutil.ignore_patterns('.env', '.git', '*.sqlite3'))
+        env = {k: v for k, v in os.environ.items() if k not in ('DEBUG', 'ALLOWED_HOSTS')}
+        env.update(SECRET_KEY='x' * 50, DJANGO_SETTINGS_MODULE='apitemplate.settings')
+        code = "from django.conf import settings as s; print(s.DEBUG, s.ALLOWED_HOSTS)"
+        result = subprocess.run([sys.executable, '-c', code], cwd=copy, env=env, capture_output=True, text=True)
+        self.assertEqual(result.stdout.strip(), "False ['localhost', '127.0.0.1']", result.stderr)
